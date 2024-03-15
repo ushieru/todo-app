@@ -1,0 +1,183 @@
+openapi: 3.0.3
+info:
+  title: Aplicacion de tareas
+  description: Aplicacion de tareas
+  version: 1.0.0
+servers:
+  - url: https://todo-app-bmna.onrender.com
+tags:
+  - name: Auth
+  - name: Task
+paths:
+  /api/auth:
+    post:
+      tags:
+        - Auth
+      requestBody:
+        description: Auth endpoint
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+        required: true
+      responses:
+        '200':
+          description: Request response
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/auth/signup:
+    post:
+      tags:
+        - Auth
+      requestBody:
+        description: Signup endpoint
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+        required: true
+      responses:
+        '200':
+          description: Request response
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/task:
+    get:
+      tags:
+        - Task
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Read tasks
+          content:
+            application/json:
+              schema:
+                type: object
+    post:
+      tags:
+        - Task
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: Create Task
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskRequest'
+      responses:
+        '200':
+          description: Request response
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/task/{id}:
+    get:
+      tags:
+        - Task
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Read tasks
+          content:
+            application/json:
+              schema:
+                type: object
+    put:
+      tags:
+        - Task
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: Create Task
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskRequest'
+      responses:
+        '200':
+          description: Request response
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags:
+        - Task
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Request response
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  schemas:
+    AuthRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    SignupRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+    CreateTaskRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    UpdateTaskRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum:
+            - todo
+            - inProgress
+            - complete
+  securitySchemes:
+    BearerAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: 'Enter the token with the `Bearer: ` prefix, e.g. "Bearer abcde12345"'
