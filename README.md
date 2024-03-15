@@ -11,7 +11,7 @@
 - Levanta el servidor con el comando: `npm run dev`
 
 ### Podman/Docker
-> Si usas Docker en vez de Podman solo cambialo en el comando.
+> Si usas Docker en vez de Podman solo cambialo en los comandos del archivo **package.json**.
 > Ejemplo: ~~`podman build -t todo-app .`~~ -> `docker build -t todo-app .`
 - Genera la imagen del proyecto: `image:build`
 - Generando el contenedor: `container:start`
